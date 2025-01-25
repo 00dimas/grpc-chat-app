@@ -1,0 +1,12 @@
+# Binaries
+*.exe
+*.out
+*.o
+
+# Directories
+bin/
+build/
+
+# Golang
+*.log
+*.env
