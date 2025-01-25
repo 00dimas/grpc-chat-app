@@ -20,7 +20,7 @@ type ChatServer struct {
 
 var messageCollection *mongo.Collection
 
-// Connect to MongoDB
+
 func connectDB() {
     client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
     if err != nil {
@@ -31,12 +31,12 @@ func connectDB() {
 }
 
 func (s *ChatServer) SendMessage(ctx context.Context, req *pb.MessageRequest) (*pb.MessageResponse, error) {
-    // Simpan pesan ke MongoDB
+    
     _, err := messageCollection.InsertOne(ctx, bson.M{
         "user_id":   req.UserId,
         "group_id":  req.GroupId,
         "text":      req.Text,
-        "timestamp": time.Now().Format(time.RFC3339), // Simpan sebagai string ISO 8601
+        "timestamp": time.Now().Format(time.RFC3339), 
     })
     if err != nil {
         log.Printf("Failed to save message: %v", err)
@@ -47,7 +47,7 @@ func (s *ChatServer) SendMessage(ctx context.Context, req *pb.MessageRequest) (*
 
     return &pb.MessageResponse{
         Status:    "Message sent successfully",
-        MessageId: "12345", // Replace with real message ID
+        MessageId: "12345", 
     }, nil
 }
 
@@ -84,10 +84,10 @@ func (s *ChatServer) GetMessages(req *pb.MessageHistoryRequest, stream pb.ChatSe
 }
 
 func main() {
-    // Koneksi ke MongoDB
+    
     connectDB()
 
-    // Mulai server gRPC
+    
     listener, err := net.Listen("tcp", ":50051")
     if err != nil {
         log.Fatalf("Failed to listen on port 50051: %v", err)
@@ -95,10 +95,10 @@ func main() {
 
     grpcServer := grpc.NewServer()
 
-    // Registrasi layanan ChatService
+    
     pb.RegisterChatServiceServer(grpcServer, &ChatServer{})
 
-    // Aktifkan gRPC reflection
+    
     reflection.Register(grpcServer)
 
     log.Println("gRPC Server is running on port 50051...")

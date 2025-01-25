@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package chat;
+
+// Pesan yang digunakan untuk mengirim pesan chat
+message Message {
+  string id = 1;          // ID pesan
+  string user_id = 2;     // ID pengguna
+  string group_id = 3;    // ID grup
+  string text = 4;        // Teks pesan
+  string timestamp = 5;   // Waktu pesan dikirim
+}
+
+// Permintaan untuk mengirim pesan
+message MessageRequest {
+  string user_id = 1;
+  string group_id = 2;
+  string text = 3;
+}
+
+// Respon setelah mengirim pesan
+message MessageResponse {
+  string status = 1;      // Status pesan
+  string message_id = 2;  // ID pesan
+}
+
+// Permintaan untuk mendapatkan riwayat pesan
+message MessageHistoryRequest {
+  string group_id = 1;    // ID grup
+}
+
+// Streaming pesan untuk mengirim banyak pesan
+service ChatService {
+  // Endpoint untuk mengirim pesan
+  rpc SendMessage (MessageRequest) returns (MessageResponse);
+
+  // Endpoint untuk mendapatkan riwayat pesan dalam grup tertentu
+  rpc GetMessages (MessageHistoryRequest) returns (stream Message);
+}
