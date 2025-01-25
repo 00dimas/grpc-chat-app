@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "backend/chat;chat";
+
+service ChatService {
+    rpc SendMessage (MessageRequest) returns (MessageResponse);
+    rpc GetMessages (MessageHistoryRequest) returns (stream Message);
+}
+
+message MessageRequest {
+    string user_id = 1;
+    string group_id = 2;
+    string text = 3;
+}
+
+message MessageResponse {
+    string status = 1;
+    string message_id = 2;
+}
+
+message Message {
+    string user_id = 1;
+    string group_id = 2;
+    string text = 3;
+    string timestamp = 4;
+}
+
+message MessageHistoryRequest {
+    string group_id = 1;
+}
