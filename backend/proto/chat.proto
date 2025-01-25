@@ -2,13 +2,19 @@ syntax = "proto3";
 
 package chat;
 
-option go_package = "backend/chat;chat";
+option go_package = "./proto";
 
+// Service definition
 service ChatService {
     rpc SendMessage (MessageRequest) returns (MessageResponse);
     rpc GetMessages (MessageHistoryRequest) returns (stream Message);
+    rpc UpdateMessage (UpdateMessageRequest) returns (MessageResponse);
+    rpc DeleteMessage (DeleteMessageRequest) returns (MessageResponse);
+    rpc AddReaction (ReactionRequest) returns (ReactionResponse);
+    rpc GetReactions (ReactionHistoryRequest) returns (stream Reaction);
 }
 
+// Messages definition
 message MessageRequest {
     string user_id = 1;
     string group_id = 2;
@@ -21,12 +27,48 @@ message MessageResponse {
 }
 
 message Message {
-    string user_id = 1;
-    string group_id = 2;
-    string text = 3;
-    string timestamp = 4;
+    string message_id = 1;
+    string user_id = 2;
+    string group_id = 3;
+    string text = 4;
+    string timestamp = 5;
 }
 
 message MessageHistoryRequest {
     string group_id = 1;
+}
+
+// For updating messages
+message UpdateMessageRequest {
+    string message_id = 1;
+    string user_id = 2;
+    string new_text = 3;
+}
+
+// For deleting messages
+message DeleteMessageRequest {
+    string message_id = 1;
+    string user_id = 2;
+}
+
+// For adding and fetching reactions
+message ReactionRequest {
+    string message_id = 1;
+    string user_id = 2;
+    string reaction_type = 3; // e.g., "like", "heart", "laugh"
+}
+
+message ReactionResponse {
+    string status = 1;
+}
+
+message Reaction {
+    string message_id = 1;
+    string user_id = 2;
+    string reaction_type = 3;
+    string timestamp = 4;
+}
+
+message ReactionHistoryRequest {
+    string message_id = 1;
 }

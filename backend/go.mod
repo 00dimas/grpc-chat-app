@@ -1,17 +1,20 @@
 module github.com/00dimas/grpc-chat-app/backend
 
-go 1.23.5
+go 1.22
+
+toolchain go1.23.5
 
 require (
 	go.mongodb.org/mongo-driver v1.17.2
 	google.golang.org/grpc v1.70.0
-	google.golang.org/protobuf v1.36.4
+	google.golang.org/protobuf v1.35.2
 )
 
 require (
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
@@ -23,3 +26,7 @@ require (
 	golang.org/x/text v0.21.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241202173237-19429a94021a // indirect
 )
+
+replace github.com/00dimas/grpc-chat-app/backend/proto => ./proto
+
+replace github.com/00dimas/grpc-chat-app/backend/server => ./server
